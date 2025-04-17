@@ -199,7 +199,6 @@ class DecoratorManager {
 
     /**
      * Rewrites the $class property on decoratorCommandSet classes.
-     * @private
      * @param {*} decoratorCommandSet the DecoratorCommandSet object
      * @param {string} version the DCS version upgrade target
      * @returns {object} the migrated DecoratorCommandSet object
@@ -224,7 +223,6 @@ class DecoratorManager {
     /**
      * Checks if the supplied decoratorCommandSet can be migrated.
      * Migrations should only take place across minor versions of the same major version.
-     * @private
      * @param {*} decoratorCommandSet the DecoratorCommandSet object
      * @param {*} DCS_VERSION the DecoratorCommandSet version
      * @returns {boolean} returns true if major versions are equal
@@ -321,7 +319,8 @@ class DecoratorManager {
                 strict: true,
                 metamodelValidation: true,
                 addMetamodel: true,
-                enableMapType
+                enableMapType,
+                importAliasing: modelManager.isAliasedTypeEnabled(),
             });
             validationModelManager.addModelFiles(modelManager.getModelFiles());
             validationModelManager.addCTOModel(
@@ -449,6 +448,7 @@ class DecoratorManager {
         const newModelManager = new ModelManager({
             strict: modelManager.isStrict(),
             enableMapType,
+            importAliasing: modelManager.isAliasedTypeEnabled(),
             decoratorValidation: modelManager.getDecoratorValidation()});
         newModelManager.fromAst(decoratedAst);
         return newModelManager;
